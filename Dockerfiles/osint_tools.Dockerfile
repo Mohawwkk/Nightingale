@@ -82,8 +82,7 @@ RUN set -eux; \
     echo "Installing metagoofil..."; \
     cd metagoofil; \
     if [ -f requirements.txt ]; then \
-        python3 -m venv venv; \
-        # Install dependencies
+        # Tools are installed with pipx (isolated per-app venvs), so no local venv is needed here
         while IFS= read -r package || [ -n "${package}" ]; do \
             # Skip empty lines and comments
             [ -z "${package}" ] || echo "${package}" | grep -q '^#' && continue; \

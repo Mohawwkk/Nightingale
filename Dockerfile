@@ -166,7 +166,7 @@ RUN set -eux; \
     find ${TOOLS_WEB_VAPT} ${TOOLS_OSINT} ${TOOLS_MOBILE_VAPT} ${TOOLS_NETWORK_VAPT} ${TOOLS_RED_TEAMING} ${TOOLS_FORENSICS} ${WORDLIST} -name ".git" -type d -exec rm -rf {} + 2>/dev/null || true;
 
 COPY --from=programming /usr/local /usr/local
-COPY --from=programming /opt/venv3 /opt/venv3
+COPY --from=programming /opt/venv /opt/venv
 COPY --from=programming /usr/local/go /home/go
 
 RUN set -eux; \

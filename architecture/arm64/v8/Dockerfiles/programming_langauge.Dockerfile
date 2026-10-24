@@ -42,9 +42,9 @@ RUN set -eux; \
     apt-get install -y --no-install-recommends \
         build-essential; \
     # Create optimized virtual environment
-    python -m venv /opt/venv3 --copies; \
+    python -m venv /opt/venv --copies; \
     # Upgrade pip and install essential tools
-    /opt/venv3/bin/pip install --no-cache-dir --upgrade \
+    /opt/venv/bin/pip install --no-cache-dir --upgrade \
         pip \
         "setuptools>=75.8.0" \
         pipx; \
@@ -163,7 +163,7 @@ RUN set -eux; \
     rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Copy language environments from build stages
-COPY --from=python3 /opt/venv3 /opt/venv3
+COPY --from=python3 /opt/venv /opt/venv
 COPY --from=python3 /usr/local/lib/ /usr/local/lib/
 COPY --from=python3 /usr/local/bin/ /usr/local/bin/
 COPY --from=go-builder /usr/local/go /usr/local/go
@@ -174,11 +174,11 @@ RUN update-alternatives --install /usr/bin/java java /usr/lib/jvm/java-21-openjd
     update-alternatives --install /usr/bin/javac javac /usr/lib/jvm/java-21-openjdk-arm64/bin/javac 1
 
 # Set environment variables for all languages
-ENV PYTHON3="/opt/venv3/bin/python" \
+ENV PYTHON3="/opt/venv/bin/python" \
     GOROOT="/usr/local/go" \
     GOPATH="/root/go" \
     JAVA_HOME="/usr/lib/jvm/java-21-openjdk-arm64"
-ENV PATH="/opt/venv3/bin:$GOPATH/bin:$GOROOT/bin:$JAVA_HOME/bin:$PATH"
+ENV PATH="/opt/venv/bin:$GOPATH/bin:$GOROOT/bin:$JAVA_HOME/bin:$PATH"
 
 # Install Node.js via NVM and expose node/npm globally
 RUN set -eux; \

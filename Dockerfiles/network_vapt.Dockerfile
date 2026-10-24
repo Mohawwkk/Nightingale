@@ -60,8 +60,8 @@ RUN set -eux; \
     test -d nikto || exit 1; \
     echo "Nikto installed successfully"; \
     echo "Installing AD/Windows pentesting toolchain (Impacket, BloodHound, Neo4j)..."; \
-    /opt/venv3/bin/pip install --no-cache-dir --upgrade pip; \
-    /opt/venv3/bin/pip install --no-cache-dir \
+    /opt/venv/bin/pip install --no-cache-dir --upgrade pip; \
+    /opt/venv/bin/pip install --no-cache-dir \
         impacket \
         bloodhound \
         bloodhound-cli \
@@ -72,9 +72,9 @@ RUN set -eux; \
     tar -xzf /tmp/neo4j.tgz -C ${TOOLS_NETWORK_VAPT}/neo4j --strip-components=1; \
     rm -f /tmp/neo4j.tgz; \
     # Verify AD tooling installation (Impacket 0.13+ installs example tools as *.py scripts, e.g. secretsdump.py)
-    test -x /opt/venv3/bin/secretsdump.py || exit 1; \
-    test -x /opt/venv3/bin/bloodhound-python || exit 1; \
-    test -x /opt/venv3/bin/bloodhound-cli || exit 1; \
+    test -x /opt/venv/bin/secretsdump.py || exit 1; \
+    test -x /opt/venv/bin/bloodhound-python || exit 1; \
+    test -x /opt/venv/bin/bloodhound-cli || exit 1; \
     test -x ${TOOLS_NETWORK_VAPT}/neo4j/bin/neo4j || exit 1; \
     echo "AD/Windows pentesting tools installed successfully"
 
@@ -112,7 +112,7 @@ WORKDIR /home
 # Add healthcheck
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD test -d /home/tools_network_vapt/nikto && \
-        test -x /opt/venv3/bin/bloodhound-python && \
+        test -x /opt/venv/bin/bloodhound-python && \
         test -x /home/tools_network_vapt/neo4j/bin/neo4j || exit 1
 
 # Default command
